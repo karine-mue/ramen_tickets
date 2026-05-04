@@ -1,6 +1,8 @@
-export type TransactionId = string;
-export type OrderId = string;
-export type DisplayNo = string;
+type Brand<T, B extends string> = T & { readonly __brand: B };
+
+export type TransactionId = Brand<string, 'TransactionId'>;
+export type OrderId = Brand<string, 'OrderId'>;
+export type DisplayNo = Brand<string, 'DisplayNo'>;
 
 export type MealUnitOption = {
   optionCode: string;
@@ -42,15 +44,15 @@ export const createTransactionId = (
   storeId: string,
   kioskId: string,
   seq: number
-): TransactionId => `${date}-${storeId}-${kioskId}-${padSeq(seq)}`;
+ ): TransactionId => `${date}-${storeId}-${kioskId}-${padSeq(seq)}` as TransactionId;
 
 export const createOrderId = (
   date: string,
   storeId: string,
   seq: number
-): OrderId => `${date}-${storeId}-${padSeq(seq)}`;
+ ): OrderId => `${date}-${storeId}-${padSeq(seq)}` as OrderId;
 
-export const formatDisplayNo = (seq: number): DisplayNo => padSeq(seq);
+export const formatDisplayNo = (seq: number): DisplayNo => padSeq(seq) as DisplayNo;
 
 type JsonPrimitive = string | number | boolean | null;
 export type JsonLike = JsonPrimitive | JsonLike[] | { [key: string]: JsonLike };
