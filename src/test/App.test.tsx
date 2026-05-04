@@ -1,20 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 
+// Reset localStorage before each test
+beforeEach(() => localStorage.clear());
+
 describe('App', () => {
-  it('renders MVP heading and milestones', () => {
+  it('renders the simulator header', () => {
     render(<App />);
+    expect(screen.getByText(/ラーメン券売機シミュレーター/)).toBeInTheDocument();
+  });
 
-    expect(
-      screen.getByRole('heading', { name: 'Ramen Tickets MVP', level: 1 })
-    ).toBeInTheDocument();
+  it('renders three panel headings', () => {
+    render(<App />);
+    expect(screen.getByText('券売機')).toBeInTheDocument();
+    expect(screen.getByText('保守パネル')).toBeInTheDocument();
+    expect(screen.getByText('厨房キュー')).toBeInTheDocument();
+  });
 
-    expect(
-      screen.getByText(/Issue 0 and Issue 1 establish the frontend baseline/i)
-    ).toBeInTheDocument();
-
-    expect(screen.getByText('Define ticket data model')).toBeInTheDocument();
-    expect(screen.getByText('Add create/read ticket flows')).toBeInTheDocument();
-    expect(screen.getByText('Connect persistence layer')).toBeInTheDocument();
+  it('shows idle screen on first load', () => {
+    render(<App />);
+    expect(screen.getByText(/画面をタッチしてご注文をお始めください/)).toBeInTheDocument();
   });
 });
